@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Latest Posts</h2>
+
+{% for post in posts %}
+
+<div class="card mb-4 shadow-sm">
+
+    {% if post.image %}
+    <img src="{{ url_for('static', filename='uploads/' + post.image) }}" class="card-img-top">
+    {% endif %}
+
+    <div class="card-body">
+        <h4 class="card-title">{{ post.title }}</h4>
+        <p class="card-text">{{ post.content }}</p>
+    </div>
+
+    <div class="card-footer">
+
+        <h6>Comments</h6>
+
+        {% for c in post.comments %}
+            <p class="mb-1">💬 {{ c.text }}</p>
+        {% endfor %}
+
+        <form method="POST" action="/comment/{{ post.id }}">
+            <div class="input-group mt-2">
+                <input type="text" name="text" class="form-control" placeholder="Write comment..." required>
+                <button class="btn btn-primary">Send</button>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}
